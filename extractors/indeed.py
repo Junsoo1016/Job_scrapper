@@ -2,7 +2,7 @@ from requests import get
 from bs4 import BeautifulSoup
 
 def get_page_count(keyword):
-    base_url = "https://kr.indeed.com/jobs?q="
+    base_url = "https://www.indeed.com/jobs?q="
     response = get(f"{base_url}{keyword}")
 
     if response.status_code != 200:
@@ -26,7 +26,7 @@ def extract_indeed_jobs(keyword):
     print("Found", pages, "pages")
     results = []
     for page in range(pages):
-        base_url = "https://kr.indeed.com/jobs"
+        base_url = "https://www.indeed.com/jobs?q="
         final_url = f"{base_url}?q={keyword}&start={page*10}"
         print("requesting", final_url)
         response = get(final_url)
@@ -47,7 +47,7 @@ def extract_indeed_jobs(keyword):
                     company = job.find("span", class_='companyName')
                     location = job.find('div', class_='companyLocation')
                     job_data = {
-                        'link': f'https://kr.indeed.com{link}',
+                        'link': f'https://indeed.com{link}',
                         'company': company.string.replace(",", " "),
                         'location': location.string.replace(",", " "),
                         'position': title.replace(",", " ")
